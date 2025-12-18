@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ram Sir Automation - Birthday Message Sender</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #06b6d4;
+            --accent: #f59e0b;
+            --light-bg: #ffffff;
+            --light-secondary: #f8fafc;
+            --light-text: #1e293b;
+            --gray: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--light-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(79, 70, 229, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.05) 0%, transparent 20%);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--light-bg);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            animation: slideDown 0.5s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--light-secondary);
+            color: var(--light-text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: #f1f5f9;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-test {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+        }
+
+        .btn-test:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0 3rem;
+            background: var(--light-bg);
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            animation: fadeIn 1s ease;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s infinite alternate;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .test-section {
+            background: var(--light-secondary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            border: 1px solid var(--border);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .time-control {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .time-control input {
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            font-size: 1rem;
+            width: 100px;
+            text-align: center;
+        }
+
+        .tech-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tech-icons i {
+            font-size: 2.5rem;
+            color: var(--gray);
+            transition: all 0.3s ease;
+        }
+
+        .tech-icons i:hover {
+            color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        /* Form Section */
+        .form-section {
+            background: var(--light-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            animation: slideUp 0.8s ease;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--light-text);
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--light-text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group label i {
+            color: var(--primary);
+        }
+
+        .form-control {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--light-text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 1.5rem;
+        }
+
+        /* Table Section */
+        .table-section {
+            background: var(--light-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            animation: slideUp 1s ease;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-box {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--light-text);
+            font-size: 1rem;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        thead {
+            background: var(--gradient);
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        td {
+            padding: 15px;
+            color: var(--light-text);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-yes {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-no {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-edit {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-delete {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-send {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--gray);
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+            background: var(--light-bg);
+        }
+
+        .whatsapp-contact {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .whatsapp-contact a {
+            color: var(--success);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: left; }
+            100% { background-position: right; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .form-section, .table-section {
+                padding: 1.5rem;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .time-control {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tech-icons i {
+                font-size: 2rem;
+            }
+            
+            th, td {
+                padding: 10px;
+            }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            background: white;
+            color: var(--light-text);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            border-left: 4px solid var(--primary);
+            border: 1px solid var(--border);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-success {
+            border-left-color: var(--success);
+        }
+
+        .toast-error {
+            border-left-color: var(--error);
+        }
+
+        .toast-warning {
+            border-left-color: #f59e0b;
+        }
+
+        /* Auto-test panel */
+        .auto-test-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .test-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .time-display {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .info-box {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 1rem;
+            color: #0369a1;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <span>Ram Sir Automation</span>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-primary" id="addDataBtn">
+                    <i class="fas fa-plus"></i> Add More Data
+                </button>
+                <button class="btn btn-secondary" id="reviewBtn">
+                    <i class="fas fa-chart-bar"></i> Review
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Make Your Automation Journey Easy with Ram Sir</h1>
+            <p>Automatically send birthday wishes via WhatsApp. Test immediately or schedule for 6:00 AM IST.</p>
+            
+            <div class="test-section">
+                <h3 style="margin-bottom: 1rem; color: var(--primary);">
+                    <i class="fas fa-vial"></i> Test Birthday Automation
+                </h3>
+                
+                <div class="time-control">
+                    <button class="btn btn-test" id="testNowBtn">
+                        <i class="fas fa-bolt"></i> Test Now
+                    </button>
+                    <button class="btn btn-primary" id="simulateTimeBtn">
+                        <i class="fas fa-clock"></i> Simulate 6:00 AM
+                    </button>
+                    <div class="time-display" id="currentTime">
+                        Current: Loading...
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>How to test:</strong> 
+                    1. Add a contact with today's date as DOB<br>
+                    2. Click "Test Now" to send message immediately<br>
+                    3. Click "Simulate 6:00 AM" to test scheduled sending
+                </div>
+            </div>
+            
+            <div class="tech-icons">
+                <i class="fab fa-html5" title="HTML5"></i>
+                <i class="fab fa-css3-alt" title="CSS3"></i>
+                <i class="fab fa-js" title="JavaScript"></i>
+                <i class="fab fa-whatsapp" title="WhatsApp"></i>
+                <i class="fas fa-database" title="Local Storage"></i>
+                <i class="fas fa-mobile-alt" title="Responsive"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Auto Test Panel -->
+    <section class="auto-test-panel">
+        <div class="container">
+            <h3 class="section-title">
+                <i class="fas fa-cogs"></i> Automation Controls
+            </h3>
+            <div class="test-controls">
+                <div>
+                    <strong>Scheduled Time:</strong> 
+                    <input type="time" id="scheduledTime" value="06:00" style="margin-left: 10px;">
+                </div>
+                <button class="btn btn-secondary" id="updateScheduleBtn">
+                    <i class="fas fa-save"></i> Update Schedule
+                </button>
+                <div style="color: var(--gray); font-size: 0.9rem;">
+                    Next check: <span id="nextCheckTime">Calculating...</span>
+                </div>
+            </div>
+            <div style="margin-top: 10px; font-size: 0.9rem; color: var(--gray);">
+                <i class="fas fa-sync-alt"></i> Auto-check runs every 60 seconds
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <section class="form-section" id="formSection">
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-user-plus"></i> Add Contact Data
+            </h2>
+            <form id="contactForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="Enter full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dob"><i class="fas fa-birthday-cake"></i> Date of Birth</label>
+                        <input type="date" id="dob" class="form-control" required>
+                        <small style="color: var(--gray); margin-top: 5px;">Set to today's date to test immediately</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="address"><i class="fas fa-home"></i> Address</label>
+                        <input type="text" id="address" class="form-control" placeholder="Enter complete address">
+                    </div>
+                    <div class="form-group">
+                        <label for="number"><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" id="number" class="form-control" pattern="[0-9]{10}" placeholder="10-digit number (e.g., 7000296043)" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="Enter email address">
+                    </div>
+                    <div class="form-group">
+                        <label for="message"><i class="fas fa-comment-alt"></i> Birthday Message</label>
+                        <textarea id="message" class="form-control" rows="3" placeholder="Enter custom message or leave empty for random message"></textarea>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="clearBtn">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                    <button type="button" class="btn btn-test" id="addTestContactBtn">
+                        <i class="fas fa-vial"></i> Add Test Contact
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Contact
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Table Section -->
+    <section class="table-section">
+        <div class="container">
+            <div class="table-header">
+                <h2 class="section-title">
+                    <i class="fas fa-list-alt"></i> Contact Database (<span id="contactCount">0</span>)
+                </h2>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search by name...">
+                </div>
+            </div>
+            <div class="table-container">
+                <table id="contactsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>DOB</th>
+                            <th>Number</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2024 Ram Sir Automation. All rights reserved.</p>
+            <p>Birthday messages are automatically sent at scheduled time via WhatsApp</p>
+            <div class="whatsapp-contact">
+                <i class="fab fa-whatsapp"></i>
+                <span>Developer: <a href="https://wa.me/919753528324" target="_blank">+91 9753528324</a></span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Operation completed successfully!</span>
+    </div>
+
+    <script>
+        // Sample random messages
+        const randomMessages = [
+            "Wishing you a day filled with happiness and a year filled with joy. Happy birthday!",
+            "Sending you smiles for every moment of your special day. Have a wonderful birthday!",
+            "Hope your special day brings you all that your heart desires. Happy birthday!",
+            "May this birthday be the beginning of the best year of your life. Happy birthday!",
+            "Wishing you all the love and happiness on your special day. Happy birthday!",
+            "May your birthday be as wonderful and extraordinary as you are. Happy birthday!",
+            "Sending you warm wishes on your birthday and best wishes for the year ahead.",
+            "Hope your birthday is as amazing as you are. Have a fantastic day!",
+            "Wishing you health, happiness, and prosperity on your birthday and always.",
+            "May your birthday be filled with laughter, joy, and wonderful memories. Happy birthday!"
+        ];
+
+        // Initialize contacts from localStorage or use sample data
+        let contacts = JSON.parse(localStorage.getItem('birthdayContacts')) || [];
+        let editId = null;
+        let scheduledHour = 6; // Default 6:00 AM
+        let scheduledMinute = 0;
+
+        // DOM Elements
+        const contactForm = document.getElementById('contactForm');
+        const tableBody = document.getElementById('tableBody');
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const testNowBtn = document.getElementById('testNowBtn');
+        const simulateTimeBtn = document.getElementById('simulateTimeBtn');
+        const currentTimeDisplay = document.getElementById('currentTime');
+        const scheduledTimeInput = document.getElementById('scheduledTime');
+        const updateScheduleBtn = document.getElementById('updateScheduleBtn');
+        const nextCheckTimeDisplay = document.getElementById('nextCheckTime');
+        const addTestContactBtn = document.getElementById('addTestContactBtn');
+        const contactCountDisplay = document.getElementById('contactCount');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTimeDisplay();
+            setInterval(updateTimeDisplay, 1000);
+            
+            renderTable();
+            updateNextCheckTime();
+            
+            // Load saved schedule time
+            const savedTime = localStorage.getItem('birthdayScheduleTime');
+            if (savedTime) {
+                scheduledTimeInput.value = savedTime;
+                const [hour, minute] = savedTime.split(':').map(Number);
+                scheduledHour = hour;
+                scheduledMinute = minute;
+            }
+            
+            // Start the automation checker
+            setInterval(checkBirthdays, 60000); // Check every minute
+            setInterval(updateStatuses, 60000); // Update statuses every minute
+            
+            // Initial check
+            checkBirthdays();
+        });
+
+        // Update current time display
+        function updateTimeDisplay() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-IN', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true 
+            });
+            currentTimeDisplay.textContent = `Current: ${timeString}`;
+        }
+
+        // Update next check time display
+        function updateNextCheckTime() {
+            const now = new Date();
+            let nextCheck = new Date();
+            
+            // Set to next scheduled time
+            nextCheck.setHours(scheduledHour, scheduledMinute, 0, 0);
+            
+            // If the scheduled time has already passed today, set for tomorrow
+            if (nextCheck <= now) {
+                nextCheck.setDate(nextCheck.getDate() + 1);
+            }
+            
+            const timeString = nextCheck.toLocaleTimeString('en-IN', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            const dateString = nextCheck.toLocaleDateString('en-IN', {
+                weekday: 'short',
+                day: 'numeric',
+                month: 'short'
+            });
+            
+            nextCheckTimeDisplay.textContent = `${dateString} at ${timeString}`;
+        }
+
+        // Form Submit Handler
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const contact = {
+                id: editId || Date.now(),
+                name: document.getElementById('name').value,
+                dob: document.getElementById('dob').value,
+                address: document.getElementById('address').value,
+                number: document.getElementById('number').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value || getRandomMessage(),
+                status: 'no',
+                lastSent: null,
+                created: new Date().toISOString()
+            };
+
+            if (editId) {
+                // Update existing contact
+                const index = contacts.findIndex(c => c.id === editId);
+                if (index !== -1) {
+                    contacts[index] = contact;
+                    showToast('Contact updated successfully!', 'success');
+                }
+                editId = null;
+                document.querySelector('.form-actions button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> Save Contact';
+            } else {
+                // Add new contact
+                contacts.push(contact);
+                showToast('Contact added successfully!', 'success');
+            }
+
+            saveToLocalStorage();
+            renderTable();
+            contactForm.reset();
+        });
+
+        // Add Test Contact
+        addTestContactBtn.addEventListener('click', function() {
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+            
+            document.getElementById('name').value = 'Test User';
+            document.getElementById('dob').value = todayStr;
+            document.getElementById('address').value = 'Test Address, Test City';
+            document.getElementById('number').value = '9876543210';
+            document.getElementById('email').value = 'test@example.com';
+            document.getElementById('message').value = 'This is a test birthday message for automation testing!';
+            
+            showToast('Test contact details loaded. Click Save Contact to add.', 'success');
+        });
+
+        // Clear Form
+        clearBtn.addEventListener('click', function() {
+            contactForm.reset();
+            editId = null;
+            document.querySelector('.form-actions button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> Save Contact';
+        });
+
+        // Search Functionality
+        searchInput.addEventListener('input', function() {
+            renderTable(this.value.toLowerCase());
+        });
+
+        // Edit Contact
+        function editContact(id) {
+            const contact = contacts.find(c => c.id === id);
+            if (contact) {
+                document.getElementById('name').value = contact.name;
+                document.getElementById('dob').value = contact.dob;
+                document.getElementById('address').value = contact.address;
+                document.getElementById('number').value = contact.number;
+                document.getElementById('email').value = contact.email;
+                document.getElementById('message').value = contact.message;
+                editId = id;
+                document.querySelector('.form-actions button[type="submit"]').innerHTML = '<i class="fas fa-edit"></i> Update Contact';
+                
+                // Scroll to form
+                document.getElementById('formSection').scrollIntoView({ behavior: 'smooth' });
+                showToast('Editing contact: ' + contact.name, 'success');
+            }
+        }
+
+        // Delete Contact
+        function deleteContact(id) {
+            if (confirm('Are you sure you want to delete this contact?')) {
+                contacts = contacts.filter(c => c.id !== id);
+                saveToLocalStorage();
+                renderTable();
+                showToast('Contact deleted successfully!', 'success');
+            }
+        }
+
+        // Manual Send Message
+        function sendMessageNow(id) {
+            const contact = contacts.find(c => c.id === id);
+            if (contact) {
+                sendWhatsAppMessage(contact, true);
+            }
+        }
+
+        // Render Table
+        function renderTable(searchTerm = '') {
+            tableBody.innerHTML = '';
+            
+            const filteredContacts = searchTerm 
+                ? contacts.filter(contact => 
+                    contact.name.toLowerCase().includes(searchTerm) ||
+                    contact.email.toLowerCase().includes(searchTerm) ||
+                    contact.number.includes(searchTerm))
+                : contacts;
+
+            contactCountDisplay.textContent = filteredContacts.length;
+
+            if (filteredContacts.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray);">
+                            <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
+                            No contacts found. Add your first contact above!
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            filteredContacts.forEach(contact => {
+                const row = document.createElement('tr');
+                
+                // Check if status needs to be reset (24 hours passed)
+                if (contact.status === 'yes' && contact.lastSent) {
+                    const lastSentDate = new Date(contact.lastSent);
+                    const now = new Date();
+                    const hoursDiff = (now - lastSentDate) / (1000 * 60 * 60);
+                    
+                    if (hoursDiff >= 24) {
+                        contact.status = 'no';
+                        contact.lastSent = null;
+                    }
+                }
+                
+                row.innerHTML = `
+                    <td><strong>${contact.name}</strong></td>
+                    <td>${formatDate(contact.dob)}</td>
+                    <td>${contact.number}</td>
+                    <td>${contact.email || 'N/A'}</td>
+                    <td style="max-width: 200px;">${contact.message.substring(0, 40)}${contact.message.length > 40 ? '...' : ''}</td>
+                    <td>
+                        <span class="status status-${contact.status}">
+                            ${contact.status === 'yes' ? 'Sent ✓' : 'Pending'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-action btn-edit" onclick="editContact(${contact.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-action btn-send" onclick="sendMessageNow(${contact.id})" title="Send Now">
+                                <i class="fab fa-whatsapp"></i>
+                            </button>
+                            <button class="btn-action btn-delete" onclick="deleteContact(${contact.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Check Birthdays and Send Messages
+        function checkBirthdays() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            
+            // Check if it's scheduled time
+            if (currentHour === scheduledHour && currentMinute === scheduledMinute) {
+                const today = formatDateForCompare(now);
+                
+                let sentCount = 0;
+                contacts.forEach(contact => {
+                    const contactDob = formatDateForCompare(new Date(contact.dob));
+                    
+                    if (contactDob === today && contact.status === 'no') {
+                        sendWhatsAppMessage(contact, false);
+                        sentCount++;
+                    }
+                });
+                
+                if (sentCount > 0) {
+                    showToast(`Birthday messages sent to ${sentCount} contact(s)`, 'success');
+                }
+            }
+        }
+
+        // Send WhatsApp Message
+        function sendWhatsAppMessage(contact, isManual = false) {
+            const phoneNumber = contact.number;
+            const message = encodeURIComponent(contact.message);
+            const whatsappUrl = `https://wa.me/91${phoneNumber}?text=${message}`;
+            
+            // Update contact status
+            contact.status = 'yes';
+            contact.lastSent = new Date().toISOString();
+            
+            // Save changes
+            saveToLocalStorage();
+            renderTable();
+            
+            if (isManual) {
+                // For manual sending, show confirmation and open WhatsApp
+                if (confirm(`Send birthday message to ${contact.name} (${phoneNumber})?\n\nMessage: ${contact.message}\n\nClick OK to open WhatsApp.`)) {
+                    window.open(whatsappUrl, '_blank');
+                }
+                showToast(`Message ready to send to ${contact.name}`, 'success');
+            } else {
+                // For automated sending (in real scenario, this would use WhatsApp API)
+                // For demo, we'll just log it and show a toast
+                console.log(`Message would be sent to ${contact.name} at ${phoneNumber}`);
+                console.log(`WhatsApp URL: ${whatsappUrl}`);
+                showToast(`Birthday message sent to ${contact.name}!`, 'success');
+            }
+        }
+
+        // Update Statuses (reset after 24 hours)
+        function updateStatuses() {
+            let updated = false;
+            const now = new Date();
+            
+            contacts.forEach(contact => {
+                if (contact.status === 'yes' && contact.lastSent) {
+                    const lastSentDate = new Date(contact.lastSent);
+                    const hoursDiff = (now - lastSentDate) / (1000 * 60 * 60);
+                    
+                    if (hoursDiff >= 24) {
+                        contact.status = 'no';
+                        contact.lastSent = null;
+                        updated = true;
+                    }
+                }
+            });
+            
+            if (updated) {
+                saveToLocalStorage();
+                renderTable();
+            }
+        }
+
+        // Test Now Button - Send to all contacts with today's birthday
+        testNowBtn.addEventListener('click', function() {
+            const today = formatDateForCompare(new Date());
+            let sentCount = 0;
+            
+            contacts.forEach(contact => {
+                const contactDob = formatDateForCompare(new Date(contact.dob));
+                
+                if (contactDob === today && contact.status === 'no') {
+                    sendWhatsAppMessage(contact, true);
+                    sentCount++;
+                }
+            });
+            
+            if (sentCount === 0) {
+                showToast('No contacts have birthday today with pending status.', 'warning');
+            } else {
+                showToast(`Test: Sent ${sentCount} message(s)`, 'success');
+            }
+        });
+
+        // Simulate 6:00 AM Button
+        simulateTimeBtn.addEventListener('click', function() {
+            // Force check birthdays as if it's 6:00 AM
+            const today = formatDateForCompare(new Date());
+            let sentCount = 0;
+            
+            contacts.forEach(contact => {
+                const contactDob = formatDateForCompare(new Date(contact.dob));
+                
+                if (contactDob === today && contact.status === 'no') {
+                    sendWhatsAppMessage(contact, false);
+                    sentCount++;
+                }
+            });
+            
+            if (sentCount === 0) {
+                showToast('Simulation: No birthdays to send today.', 'warning');
+            } else {
+                showToast(`Simulation: Would send ${sentCount} message(s) at 6:00 AM`, 'success');
+            }
+        });
+
+        // Update Schedule Time
+        updateScheduleBtn.addEventListener('click', function() {
+            const [hour, minute] = scheduledTimeInput.value.split(':').map(Number);
+            scheduledHour = hour;
+            scheduledMinute = minute;
+            
+            localStorage.setItem('birthdayScheduleTime', scheduledTimeInput.value);
+            updateNextCheckTime();
+            
+            showToast(`Schedule updated to ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`, 'success');
+        });
+
+        // Helper Functions
+        function getRandomMessage() {
+            return randomMessages[Math.floor(Math.random() * randomMessages.length)];
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+
+        function formatDateForCompare(date) {
+            return `${date.getMonth() + 1}-${date.getDate()}`;
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('birthdayContacts', JSON.stringify(contacts));
+        }
+
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = 'toast';
+            toast.classList.add('show');
+            
+            // Set icon based on type
+            let icon = 'fa-check-circle';
+            if (type === 'error') icon = 'fa-exclamation-circle';
+            if (type === 'warning') icon = 'fa-exclamation-triangle';
+            
+            toast.querySelector('i').className = `fas ${icon}`;
+            toast.classList.add(`toast-${type}`);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Add Data Button - Scroll to form
+        document.getElementById('addDataBtn').addEventListener('click', function() {
+            document.getElementById('formSection').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Review Button - Show stats
+        document.getElementById('reviewBtn').addEventListener('click', function() {
+            const totalContacts = contacts.length;
+            const sentMessages = contacts.filter(c => c.status === 'yes').length;
+            const pendingMessages = contacts.filter(c => c.status === 'no').length;
+            const today = formatDateForCompare(new Date());
+            const todayBirthdays = contacts.filter(c => formatDateForCompare(new Date(c.dob)) === today).length;
+            
+            alert(`📊 Birthday Automation Stats:\n\n` +
+                  `Total Contacts: ${totalContacts}\n` +
+                  `Messages Sent: ${sentMessages}\n` +
+                  `Pending Messages: ${pendingMessages}\n` +
+                  `Birthdays Today: ${todayBirthdays}\n\n` +
+                  `Scheduled Time: ${scheduledHour.toString().padStart(2, '0')}:${scheduledMinute.toString().padStart(2, '0')}\n` +
+                  `Next check in: ${calculateMinutesToNextCheck()} minutes`);
+        });
+
+        function calculateMinutesToNextCheck() {
+            const now = new Date();
+            let nextCheck = new Date();
+            nextCheck.setHours(scheduledHour, scheduledMinute, 0, 0);
+            
+            if (nextCheck <= now) {
+                nextCheck.setDate(nextCheck.getDate() + 1);
+            }
+            
+            return Math.round((nextCheck - now) / (1000 * 60));
+        }
+
+        // Add some sample data on first load
+        if (contacts.length === 0) {
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayStr = yesterday.toISOString().split('T')[0];
+            
+            const sampleContacts = [
+                {
+                    id: 1,
+                    name: "John Sharma",
+                    dob: todayStr,
+                    address: "123 Connaught Place, New Delhi",
+                    number: "9876543210",
+                    email: "john.sharma@example.com",
+                    message: "Happy Birthday John! Wishing you a fantastic year ahead!",
+                    status: "no",
+                    lastSent: null,
+                    created: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    name: "Priya Patel",
+                    dob: yesterdayStr,
+                    address: "456 Marine Drive, Mumbai",
+                    number: "9876543211",
+                    email: "priya.patel@example.com",
+                    message: "Belated Happy Birthday Priya! Hope you had a wonderful day!",
+                    status: "yes",
+                    lastSent: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
+                    created: new Date().toISOString()
+                },
+                {
+                    id: 3,
+                    name: "Amit Kumar",
+                    dob: "1995-08-15",
+                    address: "789 MG Road, Bangalore",
+                    number: "9876543212",
+                    email: "amit.kumar@example.com",
+                    message: "",
+                    status: "no",
+                    lastSent: null,
+                    created: new Date().toISOString()
+                }
+            ];
+            
+            contacts = sampleContacts;
+            saveToLocalStorage();
+            renderTable();
+        }
+    </script>
+</body>
+</html>
